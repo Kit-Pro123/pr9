@@ -5,8 +5,8 @@ pos=mail[-1]
 s='r'
 if p.isdigit() or p in '.-_' or pos in '.-_':
     print('Почта не может начинаться или заканчиваться с цифры, тире, точки и подчеркивания')
-elif '@.' in mail == False:
-    print('Введенные значения не почта')
+elif '@' not in mail or '.' not in mail:
+    print('Введенная строка не почта')
 elif ' ' in mail:
     print('В почте не может быть пробелов')
 elif mail.count('@')>1:
@@ -31,19 +31,19 @@ else:
             else:
                 s+='r'
         F=True
-    if F==True:
-        a=s.replace('r', '(\w+)').replace('T', '\.').replace('t', '\-').replace('p', '\_').replace('g', '\@')
-        print(a)
+    if F:
+        a=s.replace('r', '(\\w+)').replace('T', '\\.').replace('t', '\\-').replace('p', '\\_').replace('g', '\\@')
+        print("Наша почта в регулярном представлении", a) 
         res=re.search(a, mail)
-        print(res)
-        prov=re.split('\@', a)
-        print(prov)
-        print(prov[0])
-        print(prov[-1])
+        #print(res) использовалось для проверки
+        prov=re.split('\\@', a)
+        #print(prov)
+        #print(prov[0])
+        #print(prov[-1])
         username=prov[0][:-1]
         user=re.search(username, mail)
         print(f"Наш username:{user}")
-        doma='\@'+prov[-1]
+        doma='\\@'+prov[-1]
         domain=re.search(doma, mail)
         domainn=str(domain)
         domainnn=domainn.replace('@', '')
