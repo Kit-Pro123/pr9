@@ -3,6 +3,8 @@ mail = 'danil.shtus3232@mail.ru'
 p=mail[0]
 pos=mail[-1]
 s='r'
+t=0
+k=0
 if p.isdigit() or p in '.-_' or pos in '.-_':
     print('Почта не может начинаться или заканчиваться с цифры, тире, точки и подчеркивания')
 elif '@' not in mail or '.' not in mail:
@@ -13,14 +15,17 @@ elif mail.count('@')>1:
     print('В почте не может быть больше одной @')
 else:
     for i in range(len(mail)):
-        if s[-1]=="g" and mail[i]=='.':
+        if (s[-1]=="g" and mail[i]=='-') or (s[-1]=="g" and mail[i]=='.') or (s[-1]=="g" and mail[i]=='_'):
             print('Указанные вами данные не могут быть почтой')
             F=False
             break
         elif mail[i]=="@":
             s+='g'
+            t=1
         elif mail[i]==".":
             s+='T'
+            if t==1:
+                k=1
         elif mail[i]=="-":
             s+='t'
         elif mail[i]=="_":
@@ -31,7 +36,9 @@ else:
             else:
                 s+='r'
         F=True
-    if F:
+    if k!=1:
+        print('Указанные данные не являются почтой, у неё нету домена')
+    elif F:
         a=s.replace('r', '(\\w+)').replace('T', '\\.').replace('t', '\\-').replace('p', '\\_').replace('g', '\\@')
         print("Наша почта в регулярном представлении", a) 
         res=re.search(a, mail)
